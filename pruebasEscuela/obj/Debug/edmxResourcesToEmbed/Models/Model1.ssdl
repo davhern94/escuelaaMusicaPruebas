@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="pruebaMusicaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Alumno">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="idProfesor" Type="int" Nullable="false" />
+    <Property Name="idEscuela" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="escuela">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="idAlumno" Type="int" Nullable="false" />
+    <Property Name="idProfesor" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="profesor">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="idAlumno" Type="int" />
+    <Property Name="idEscuela" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Alumno_escuela">
+    <End Role="escuela" Type="Self.escuela" Multiplicity="1" />
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="escuela">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Alumno">
+        <PropertyRef Name="idEscuela" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_escuela_Alumno">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+    <End Role="escuela" Type="Self.escuela" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="escuela">
+        <PropertyRef Name="idAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_escuela_profesor">
+    <End Role="profesor" Type="Self.profesor" Multiplicity="1" />
+    <End Role="escuela" Type="Self.escuela" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="profesor">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="escuela">
+        <PropertyRef Name="idProfesor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_profesor_Alumno">
+    <End Role="Alumno" Type="Self.Alumno" Multiplicity="0..1" />
+    <End Role="profesor" Type="Self.profesor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alumno">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="profesor">
+        <PropertyRef Name="idAlumno" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_profesor_escuela">
+    <End Role="escuela" Type="Self.escuela" Multiplicity="0..1" />
+    <End Role="profesor" Type="Self.profesor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="escuela">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="profesor">
+        <PropertyRef Name="idEscuela" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="pruebaMusicaModelStoreContainer">
+    <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="escuela" EntityType="Self.escuela" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="profesor" EntityType="Self.profesor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Alumno_escuela" Association="Self.FK_Alumno_escuela">
+      <End Role="escuela" EntitySet="escuela" />
+      <End Role="Alumno" EntitySet="Alumno" />
+    </AssociationSet>
+    <AssociationSet Name="FK_escuela_Alumno" Association="Self.FK_escuela_Alumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="escuela" EntitySet="escuela" />
+    </AssociationSet>
+    <AssociationSet Name="FK_escuela_profesor" Association="Self.FK_escuela_profesor">
+      <End Role="profesor" EntitySet="profesor" />
+      <End Role="escuela" EntitySet="escuela" />
+    </AssociationSet>
+    <AssociationSet Name="FK_profesor_Alumno" Association="Self.FK_profesor_Alumno">
+      <End Role="Alumno" EntitySet="Alumno" />
+      <End Role="profesor" EntitySet="profesor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_profesor_escuela" Association="Self.FK_profesor_escuela">
+      <End Role="escuela" EntitySet="escuela" />
+      <End Role="profesor" EntitySet="profesor" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

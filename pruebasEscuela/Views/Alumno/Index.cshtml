@@ -1,0 +1,51 @@
+﻿@model IEnumerable<pruebasEscuela.Models.Alumno>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("inscribir alumno", "Create","", new {@class= "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idProfesor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.idEscuela)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.idProfesor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.idEscuela)
+        </td>
+        <td>
+            @Html.ActionLink("editar", "Edit", new { id=item.id },new { @class= "btn btn-warning" }) |
+            @Html.ActionLink("detalle", "Details", new { id=item.id },new { @class= "btn btn-primary" }) |
+            @Html.ActionLink("eliminar", "Delete", new { id=item.id }, new {@class= "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
